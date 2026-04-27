@@ -1,0 +1,27 @@
+
+SERVER HEALTH REPORT
+====================
+HOSTNAME: MacBookPro
+
+UPTIME:   16:32  up 10 days,  5:04, 2 users, load averages: 5.74 4.54 5.77
+
+
+DISK SPACE:
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    11Gi   193Gi     6%    453k  2.0G    0%   /
+devfs            198Ki   198Ki     0Bi   100%     684     0  100%   /dev
+/dev/disk3s6     460Gi    18Gi   193Gi     9%      18  2.0G    0%   /System/Volumes/VM
+/dev/disk3s2     460Gi   9.4Gi   193Gi     5%    1.9k  2.0G    0%   /System/Volumes/Preboot
+/dev/disk3s4     460Gi   3.4Mi   193Gi     1%      68  2.0G    0%   /System/Volumes/Update
+/dev/disk1s2     500Mi   6.0Mi   481Mi     2%       1  4.9M    0%   /System/Volumes/xarts
+/dev/disk1s1     500Mi   5.6Mi   481Mi     2%      34  4.9M    0%   /System/Volumes/iSCPreboot
+/dev/disk1s3     500Mi   2.8Mi   481Mi     1%      57  4.9M    0%   /System/Volumes/Hardware
+/dev/disk3s5     460Gi   226Gi   193Gi    54%    2.0M  2.0G    0%   /System/Volumes/Data
+map auto_home      0Bi     0Bi     0Bi   100%       0     0     -   /System/Volumes/Data/home
+
+
+MEMORY:
+Command 'free -h' not found on this OS.
+
+LISTENING PORTS:
+Command 'ss -tuln' not found on this OS.
