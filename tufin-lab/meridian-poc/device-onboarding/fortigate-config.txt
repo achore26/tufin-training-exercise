@@ -1,0 +1,230 @@
+#config-version=FGVM64-7.2.4-FW-build1396-230131:opmode=0:vdom=0
+#conf_file_ver=10521
+#buildno=1396
+#global_vdom=1
+config system global
+    set hostname "MFG-NAIROBI-FW01"
+    set timezone 35
+    set admin-port 80
+    set admin-sport 443
+end
+config system interface
+    edit "wan1"
+        set vdom "root"
+        set ip 41.210.64.1 255.255.255.0
+        set allowaccess ping https ssh
+        set type physical
+        set role wan
+    next
+    edit "wan2"
+        set vdom "root"
+        set ip 41.210.65.1 255.255.255.0
+        set allowaccess ping
+        set type physical
+        set role wan
+    next
+    edit "internal1"
+        set vdom "root"
+        set ip 10.10.1.1 255.255.255.0
+        set allowaccess ping https
+        set type physical
+        set role lan
+    next
+    edit "internal2"
+        set vdom "root"
+        set ip 10.10.2.1 255.255.255.0
+        set allowaccess ping
+        set type physical
+        set role lan
+    next
+    edit "dmz"
+        set vdom "root"
+        set ip 172.16.1.1 255.255.255.0
+        set allowaccess ping
+        set type physical
+        set role dmz
+    next
+    edit "vlan-finance"
+        set vdom "root"
+        set ip 10.20.1.1 255.255.255.0
+        set interface "internal1"
+        set vlanid 100
+        set type vlan
+        set role lan
+    next
+    edit "vlan-ops"
+        set vdom "root"
+        set ip 10.20.2.1 255.255.255.0
+        set interface "internal1"
+        set vlanid 200
+        set type vlan
+        set role lan
+    next
+end
+config firewall policy
+    edit 1
+        set name "allow-finance-to-internet"
+        set srcintf "vlan-finance"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "HTTP" "HTTPS"
+        set logtraffic all
+    next
+    edit 2
+        set name "allow-ops-to-internet"
+        set srcintf "vlan-ops"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "HTTP" "HTTPS" "DNS"
+        set logtraffic all
+    next
+    edit 3
+        set name "allow-internal-to-dmz"
+        set srcintf "internal1"
+        set dstintf "dmz"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "HTTP" "HTTPS" "SSH"
+        set logtraffic utm
+    next
+    edit 4
+        set name "allow-dmz-to-internet"
+        set srcintf "dmz"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "HTTP" "HTTPS"
+        set logtraffic all
+    next
+    edit 5
+        set name "deny-finance-to-ops"
+        set srcintf "vlan-finance"
+        set dstintf "vlan-ops"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action deny
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+    edit 6
+        set name "allow-ssh-management"
+        set srcintf "internal2"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "SSH"
+        set logtraffic all
+    next
+    edit 7
+        set name "allow-dns-internal"
+        set srcintf "internal1"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "DNS"
+        set logtraffic utm
+    next
+    edit 8
+        set name "allow-ntp-sync"
+        set srcintf "internal1"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "NTP"
+        set logtraffic disable
+    next
+    edit 9
+        set name "allow-smtp-outbound"
+        set srcintf "vlan-ops"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "SMTP"
+        set logtraffic all
+    next
+    edit 10
+        set name "block-social-media"
+        set srcintf "internal1"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "social-media-grp"
+        set action deny
+        set schedule "always"
+        set service "HTTP" "HTTPS"
+        set logtraffic all
+    next
+    edit 11
+        set name "allow-backup-to-wan2"
+        set srcintf "internal2"
+        set dstintf "wan2"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "backup-window"
+        set service "TCP/8080"
+        set logtraffic all
+    next
+    edit 12
+        set name "deny-dmz-to-internal"
+        set srcintf "dmz"
+        set dstintf "internal1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action deny
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+    edit 13
+        set name "allow-voip-finance"
+        set srcintf "vlan-finance"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "SIP" "H323"
+        set logtraffic utm
+    next
+    edit 14
+        set name "allow-icmp-monitoring"
+        set srcintf "internal2"
+        set dstintf "internal1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "PING"
+        set logtraffic disable
+    next
+    edit 15
+        set name "implicit-deny-all"
+        set srcintf "any"
+        set dstintf "any"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action deny
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+end

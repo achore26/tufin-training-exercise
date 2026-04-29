@@ -1,0 +1,51 @@
+=== DEVICE INFORMATION ===
+Hostname: MFG-NAIROBI-FW01
+Interfaces Found: 7
+
+- wan1 (physical): IP 41.210.64.1/255.255.255.0, Role: wan
+- wan2 (physical): IP 41.210.65.1/255.255.255.0, Role: wan
+- internal1 (physical): IP 10.10.1.1/255.255.255.0, Role: lan
+- internal2 (physical): IP 10.10.2.1/255.255.255.0, Role: lan
+- dmz (physical): IP 172.16.1.1/255.255.255.0, Role: dmz
+- vlan-finance (vlan): IP 10.20.1.1/255.255.255.0, Role: lan [VLAN ID: 100, Parent: internal1]
+- vlan-ops (vlan): IP 10.20.2.1/255.255.255.0, Role: lan [VLAN ID: 200, Parent: internal1]
+
+=== FIREWALL POLICY SUMMARY ===
+Total Rules Found: 15
+
+ID 1: allow-finance-to-internet | vlan-finance -> wan1 | accept | Services: HTTP, HTTPS
+ID 2: allow-ops-to-internet | vlan-ops -> wan1 | accept | Services: HTTP, HTTPS, DNS
+ID 3: allow-internal-to-dmz | internal1 -> dmz | accept | Services: HTTP, HTTPS, SSH
+ID 4: allow-dmz-to-internet | dmz -> wan1 | accept | Services: HTTP, HTTPS
+ID 5: deny-finance-to-ops | vlan-finance -> vlan-ops | deny | Services: ALL
+ID 6: allow-ssh-management | internal2 -> wan1 | accept | Services: SSH
+ID 7: allow-dns-internal | internal1 -> wan1 | accept | Services: DNS
+ID 8: allow-ntp-sync | internal1 -> wan1 | accept | Services: NTP
+ID 9: allow-smtp-outbound | vlan-ops -> wan1 | accept | Services: SMTP
+ID 10: block-social-media | internal1 -> wan1 | deny | Services: HTTP, HTTPS
+ID 11: allow-backup-to-wan2 | internal2 -> wan2 | accept | Services: TCP/8080
+ID 12: deny-dmz-to-internal | dmz -> internal1 | deny | Services: ALL
+ID 13: allow-voip-finance | vlan-finance -> wan1 | accept | Services: SIP, H323
+ID 14: allow-icmp-monitoring | internal2 -> internal1 | accept | Services: PING
+ID 15: implicit-deny-all | any -> any | deny | Services: ALL
+
+=== DENY RULES ===
+ID 5: deny-finance-to-ops (vlan-finance -> vlan-ops)
+ID 10: block-social-media (internal1 -> wan1)
+ID 12: deny-dmz-to-internal (dmz -> internal1)
+ID 15: implicit-deny-all (any -> any)
+
+=== SECURITY ALERTS ===
+[!] Rule 1 (allow-finance-to-internet): Broad Accept Rules — Review Required
+[!] Rule 2 (allow-ops-to-internet): Broad Accept Rules — Review Required
+[!] Rule 3 (allow-internal-to-dmz): Broad Accept Rules — Review Required
+[!] Rule 4 (allow-dmz-to-internet): Broad Accept Rules — Review Required
+[!] Rule 6 (allow-ssh-management): Broad Accept Rules — Review Required
+[!] Rule 7 (allow-dns-internal): Broad Accept Rules — Review Required
+[!] Rule 8 (allow-ntp-sync): Logging Disabled — Review Required
+[!] Rule 8 (allow-ntp-sync): Broad Accept Rules — Review Required
+[!] Rule 9 (allow-smtp-outbound): Broad Accept Rules — Review Required
+[!] Rule 11 (allow-backup-to-wan2): Broad Accept Rules — Review Required
+[!] Rule 13 (allow-voip-finance): Broad Accept Rules — Review Required
+[!] Rule 14 (allow-icmp-monitoring): Logging Disabled — Review Required
+[!] Rule 14 (allow-icmp-monitoring): Broad Accept Rules — Review Required
