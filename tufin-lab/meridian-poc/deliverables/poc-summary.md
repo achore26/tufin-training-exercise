@@ -42,5 +42,10 @@ The PoC has proven that the primary hurdle to Meridian’s security is not the h
 Recommendation
 We recommend moving forward with a full-scale production deployment across all three sites to ensure continuous compliance and prevent future outages caused by manual misconfigurations.
 
+### Proposed Timeline
+	Week 1-2: Full deployment of Tufin SecureTrack+ in the production environment.
+	Week 3: Onboarding of all 14 FortiGate devices.
+	Week 4: Generation of the first automated PCI DSS compliance "Ready-to-Audit" report.
+
 Prepared by:
 Albert Chore - Junior Pre-Sales Engineer, Tufin Solutions Engineering Team
