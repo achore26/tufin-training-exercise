@@ -240,10 +240,24 @@ def print_report(hostname, interfaces, rules):
 # ─────────────────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────────────────
-
 if __name__ == "__main__":
     config = load_config(CONFIG_FILE)
     hostname = get_hostname(config)
     interfaces = get_interfaces(config)
     rules = get_firewall_rules(config)
+    
+    # Write output to both terminal and onboarding-report.txt
+    import sys
+    
+    # Save original stdout
+    original_stdout = sys.stdout
+    
+    # Write to file
+    with open("onboarding-report.txt", "w") as f:
+        sys.stdout = f
+        print_report(hostname, interfaces, rules)
+    
+    # Restore stdout and print to terminal
+    sys.stdout = original_stdout
     print_report(hostname, interfaces, rules)
+    print("\nReport saved to onboarding-report.txt")

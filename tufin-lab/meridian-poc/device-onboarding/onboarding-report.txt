@@ -1,51 +1,234 @@
-=== DEVICE INFORMATION ===
-Hostname: MFG-NAIROBI-FW01
-Interfaces Found: 7
+============================================================
+  MERIDIAN FINANCIAL GROUP — FORTIGATE ONBOARDING REPORT
+  Simulated TOS Discovery Output
+============================================================
 
-- wan1 (physical): IP 41.210.64.1/255.255.255.0, Role: wan
-- wan2 (physical): IP 41.210.65.1/255.255.255.0, Role: wan
-- internal1 (physical): IP 10.10.1.1/255.255.255.0, Role: lan
-- internal2 (physical): IP 10.10.2.1/255.255.255.0, Role: lan
-- dmz (physical): IP 172.16.1.1/255.255.255.0, Role: dmz
-- vlan-finance (vlan): IP 10.20.1.1/255.255.255.0, Role: lan [VLAN ID: 100, Parent: internal1]
-- vlan-ops (vlan): IP 10.20.2.1/255.255.255.0, Role: lan [VLAN ID: 200, Parent: internal1]
+Device Hostname   : "MFG-NAIROBI-FW01"
+Interfaces Found  : 7
+Firewall Rules    : 15
 
-=== FIREWALL POLICY SUMMARY ===
-Total Rules Found: 15
+------------------------------------------------------------
+INTERFACES
+------------------------------------------------------------
 
-ID 1: allow-finance-to-internet | vlan-finance -> wan1 | accept | Services: HTTP, HTTPS
-ID 2: allow-ops-to-internet | vlan-ops -> wan1 | accept | Services: HTTP, HTTPS, DNS
-ID 3: allow-internal-to-dmz | internal1 -> dmz | accept | Services: HTTP, HTTPS, SSH
-ID 4: allow-dmz-to-internet | dmz -> wan1 | accept | Services: HTTP, HTTPS
-ID 5: deny-finance-to-ops | vlan-finance -> vlan-ops | deny | Services: ALL
-ID 6: allow-ssh-management | internal2 -> wan1 | accept | Services: SSH
-ID 7: allow-dns-internal | internal1 -> wan1 | accept | Services: DNS
-ID 8: allow-ntp-sync | internal1 -> wan1 | accept | Services: NTP
-ID 9: allow-smtp-outbound | vlan-ops -> wan1 | accept | Services: SMTP
-ID 10: block-social-media | internal1 -> wan1 | deny | Services: HTTP, HTTPS
-ID 11: allow-backup-to-wan2 | internal2 -> wan2 | accept | Services: TCP/8080
-ID 12: deny-dmz-to-internal | dmz -> internal1 | deny | Services: ALL
-ID 13: allow-voip-finance | vlan-finance -> wan1 | accept | Services: SIP, H323
-ID 14: allow-icmp-monitoring | internal2 -> internal1 | accept | Services: PING
-ID 15: implicit-deny-all | any -> any | deny | Services: ALL
+  Name      : wan1
+  IP        : 41.210.64.1
+  Subnet    : 255.255.255.0
+  Role      : wan
+  Type      : physical
 
-=== DENY RULES ===
-ID 5: deny-finance-to-ops (vlan-finance -> vlan-ops)
-ID 10: block-social-media (internal1 -> wan1)
-ID 12: deny-dmz-to-internal (dmz -> internal1)
-ID 15: implicit-deny-all (any -> any)
+  Name      : wan2
+  IP        : 41.210.65.1
+  Subnet    : 255.255.255.0
+  Role      : wan
+  Type      : physical
 
-=== SECURITY ALERTS ===
-[!] Rule 1 (allow-finance-to-internet): Broad Accept Rules — Review Required
-[!] Rule 2 (allow-ops-to-internet): Broad Accept Rules — Review Required
-[!] Rule 3 (allow-internal-to-dmz): Broad Accept Rules — Review Required
-[!] Rule 4 (allow-dmz-to-internet): Broad Accept Rules — Review Required
-[!] Rule 6 (allow-ssh-management): Broad Accept Rules — Review Required
-[!] Rule 7 (allow-dns-internal): Broad Accept Rules — Review Required
-[!] Rule 8 (allow-ntp-sync): Logging Disabled — Review Required
-[!] Rule 8 (allow-ntp-sync): Broad Accept Rules — Review Required
-[!] Rule 9 (allow-smtp-outbound): Broad Accept Rules — Review Required
-[!] Rule 11 (allow-backup-to-wan2): Broad Accept Rules — Review Required
-[!] Rule 13 (allow-voip-finance): Broad Accept Rules — Review Required
-[!] Rule 14 (allow-icmp-monitoring): Logging Disabled — Review Required
-[!] Rule 14 (allow-icmp-monitoring): Broad Accept Rules — Review Required
+  Name      : internal1
+  IP        : 10.10.1.1
+  Subnet    : 255.255.255.0
+  Role      : lan
+  Type      : physical
+
+  Name      : internal2
+  IP        : 10.10.2.1
+  Subnet    : 255.255.255.0
+  Role      : lan
+  Type      : physical
+
+  Name      : dmz
+  IP        : 172.16.1.1
+  Subnet    : 255.255.255.0
+  Role      : dmz
+  Type      : physical
+
+  Name      : vlan-finance
+  IP        : 10.20.1.1
+  Subnet    : 255.255.255.0
+  Role      : lan
+  Type      : vlan
+  VLAN ID   : 100
+  Parent    : internal1
+
+  Name      : vlan-ops
+  IP        : 10.20.2.1
+  Subnet    : 255.255.255.0
+  Role      : lan
+  Type      : vlan
+  VLAN ID   : 200
+  Parent    : internal1
+
+------------------------------------------------------------
+FIREWALL RULES
+------------------------------------------------------------
+
+  Rule ID   : 1
+  Name      : allow-finance-to-internet
+  Src Intf  : vlan-finance
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "HTTP" "HTTPS"
+
+  Rule ID   : 2
+  Name      : allow-ops-to-internet
+  Src Intf  : vlan-ops
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "HTTP" "HTTPS" "DNS"
+
+  Rule ID   : 3
+  Name      : allow-internal-to-dmz
+  Src Intf  : internal1
+  Dst Intf  : dmz
+  Action    : ACCEPT
+  Services  : "HTTP" "HTTPS" "SSH"
+
+  Rule ID   : 4
+  Name      : allow-dmz-to-internet
+  Src Intf  : dmz
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "HTTP" "HTTPS"
+
+  Rule ID   : 5
+  Name      : deny-finance-to-ops
+  Src Intf  : vlan-finance
+  Dst Intf  : vlan-ops
+  Action    : DENY
+  Services  : "ALL"
+
+  Rule ID   : 6
+  Name      : allow-ssh-management
+  Src Intf  : internal2
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "SSH"
+
+  Rule ID   : 7
+  Name      : allow-dns-internal
+  Src Intf  : internal1
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "DNS"
+
+  Rule ID   : 8
+  Name      : allow-ntp-sync
+  Src Intf  : internal1
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "NTP"
+
+  Rule ID   : 9
+  Name      : allow-smtp-outbound
+  Src Intf  : vlan-ops
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "SMTP"
+
+  Rule ID   : 10
+  Name      : block-social-media
+  Src Intf  : internal1
+  Dst Intf  : wan1
+  Action    : DENY
+  Services  : "HTTP" "HTTPS"
+
+  Rule ID   : 11
+  Name      : allow-backup-to-wan2
+  Src Intf  : internal2
+  Dst Intf  : wan2
+  Action    : ACCEPT
+  Services  : "TCP/8080"
+
+  Rule ID   : 12
+  Name      : deny-dmz-to-internal
+  Src Intf  : dmz
+  Dst Intf  : internal1
+  Action    : DENY
+  Services  : "ALL"
+
+  Rule ID   : 13
+  Name      : allow-voip-finance
+  Src Intf  : vlan-finance
+  Dst Intf  : wan1
+  Action    : ACCEPT
+  Services  : "SIP" "H323"
+
+  Rule ID   : 14
+  Name      : allow-icmp-monitoring
+  Src Intf  : internal2
+  Dst Intf  : internal1
+  Action    : ACCEPT
+  Services  : "PING"
+
+  Rule ID   : 15
+  Name      : implicit-deny-all
+  Src Intf  : any
+  Dst Intf  : any
+  Action    : DENY
+  Services  : "ALL"
+
+------------------------------------------------------------
+DENY RULES
+------------------------------------------------------------
+
+  [DENY] Rule 5 — deny-finance-to-ops
+         vlan-finance -> vlan-ops
+
+  [DENY] Rule 10 — block-social-media
+         internal1 -> wan1
+
+  [DENY] Rule 12 — deny-dmz-to-internal
+         dmz -> internal1
+
+  [DENY] Rule 15 — implicit-deny-all
+         any -> any
+
+------------------------------------------------------------
+LOGGING DISABLED — REVIEW REQUIRED
+------------------------------------------------------------
+
+  [WARNING] Rule 8 — allow-ntp-sync
+            Logging is disabled on this rule
+
+  [WARNING] Rule 14 — allow-icmp-monitoring
+            Logging is disabled on this rule
+
+------------------------------------------------------------
+BROAD ACCEPT RULES — REVIEW REQUIRED
+------------------------------------------------------------
+
+  [WARNING] Rule 1 — allow-finance-to-internet
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 2 — allow-ops-to-internet
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 3 — allow-internal-to-dmz
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 4 — allow-dmz-to-internet
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 6 — allow-ssh-management
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 7 — allow-dns-internal
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 8 — allow-ntp-sync
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 9 — allow-smtp-outbound
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 11 — allow-backup-to-wan2
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 13 — allow-voip-finance
+            Accepts ALL src and ALL dst — review immediately
+
+  [WARNING] Rule 14 — allow-icmp-monitoring
+            Accepts ALL src and ALL dst — review immediately
+
+============================================================
+  END OF REPORT
+============================================================
